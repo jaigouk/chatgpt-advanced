@@ -1,3 +1,28 @@
+## changes compare to the original repo
+
+- it does not call external api call to google.
+- you can change src/content-scripts/api.ts to use other search engine
+- as of now, you can choose google and duckduckgo
+
+### How to install
+
+To install a Chrome extension from a zip file, you can follow these steps:
+
+1. `git clone https://github.com/jaigouk/chatgpt-advanced.git`
+2. `cd chatgpt-advanced`
+3. `yarn` or `npm install`
+4. `cp build/webchatgpt-2.0.6-chrome.zip ~/Downloads/`
+5. Extract the contents of the zip file to a local directory on your computer.
+6. Open the Chrome browser and navigate to the "Extensions" page by entering `chrome://extensions` in the address bar.
+7. Make sure that the `Developer mode` toggle in the top-right corner of the page is switched on.
+8. Click the `Load unpacked` button in the top-left corner of the page.
+9. In the file explorer window that opens, navigate to the directory where you extracted the contents of the zip file and select it.
+10. Click the `Select Folder` button to install the extension.
+11. After completing these steps, the extension should be installed in your Chrome browser and you should be able to see it in the `Extensions` page.
+
+**Note that if the extension was downloaded from an untrusted source, Chrome may display a warning message before allowing you to install the extension. Make sure to only install extensions from trusted sources to avoid any security risks.**
+
+<hr/>
 
 [link-chrome]: https://chrome.google.com/webstore/detail/chatgpt-advanced/lpfemeioodjbpieminkklglpmhlngfcn 'Chrome Web Store'
 [link-firefox]: https://addons.mozilla.org/en-US/firefox/addon/web-chatgpt/ 'Firefox Addons'
@@ -40,7 +65,7 @@ https://user-images.githubusercontent.com/3750161/214155508-5c1ad4d8-b565-4fe0-9
 
   ### Firefox
   1. Download prebuilt firefox zip file from [here](https://github.com/qunash/chatgpt-advanced/tree/main/build).
-  
+
   #### Temporary installation, in official Release or Beta
   1. Go to `about:debugging#/runtime/this-firefox`.
   2. Click `Load Temporary Add-on` button, then select the zip file you re-zipped.

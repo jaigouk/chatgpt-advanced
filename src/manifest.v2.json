@@ -3,7 +3,7 @@
   "name": "__MSG_appName__",
   "description": "__MSG_appDesc__",
   "default_locale": "en",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -11,8 +11,7 @@
   },
   "permissions": [
     "storage",
-    "webRequest",
-    "https://ddg-webapp-aagd.vercel.app/*"
+    "webRequest"
   ],
   "background": {
     "scripts": ["background/bg.js"]

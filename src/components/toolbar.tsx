@@ -9,7 +9,7 @@ import Browser from 'webextension-polyfill'
 import Dropdown from './dropdown'
 import { getTranslation, localizationKeys, setLocaleLanguage } from 'src/util/localization'
 import Footer from './footer'
-
+import SearchEngineSelector from './searchEngineSelector'
 
 const numResultsOptions = Array.from({ length: 10 }, (_, i) => i + 1).map((num) => ({
     value: num,
@@ -23,6 +23,7 @@ function Toolbar() {
     const [region, setRegion] = useState('wt-wt')
     const [promptUUID, setPromptUUID] = useState<string>('')
     const [prompts, setPrompts] = useState<Prompt[]>([])
+    const [searchEngine, setSearchEngine] = useState('google')
 
     useEffect(() => {
         getUserConfig().then((userConfig) => {
@@ -68,6 +69,11 @@ function Toolbar() {
         updateUserConfig({ region: e.target.value })
     }
 
+    const handleSearchEngineChange = (value: string) => {
+        setSearchEngine(value)
+        updateUserConfig({ searchEngine: value })
+    }
+
     const handlePromptChange = (uuid: string) => {
         removeFocusFromCurrentElement()
 
@@ -84,61 +90,56 @@ function Toolbar() {
         <span className="wcg-ml-1 wcg-pl-1 wcg-text-sm wcg-font-semibold after:wcg-content-['Web'] md:after:wcg-content-['Web_access']" />
     </label>
 
-    return (
-        <div className="wcg-flex wcg-flex-col wcg-gap-0">
-            <div className="wcg-toolbar wcg-flex wcg-items-center wcg-justify-between wcg-gap-2 wcg-rounded-md wcg-px-1">
-                <div className="wcg-btn-xs wcg-btn"
-                    onClick={() => Browser.runtime.sendMessage("show_options")}
-                >
-                    {icons.tune}
-                </div>
-                {webAccessToggle}
-                <Dropdown
-                    value={numResults}
-                    onChange={handleNumResultsChange}
-                    options={numResultsOptions} />
-                <Dropdown
-                    value={timePeriod}
-                    onChange={handleTimePeriodChange}
-                    options={timePeriodOptions} />
-                <Dropdown
-                    value={region}
-                    onChange={handleRegionChange}
-                    options={regionOptions} />
-                <div className="wcg-dropdown-top wcg-dropdown wcg-min-w-[9.5rem]"
-                    onClick={handlePromptClick}
-                >
-                    <div tabIndex={0} className="wcg-flex wcg-cursor-pointer wcg-flex-row wcg-items-center wcg-justify-between wcg-gap-0 wcg-px-2">
-                        <label className="wcg-max-w-[7rem] wcg-cursor-pointer wcg-justify-start wcg-truncate wcg-pr-0 wcg-text-sm wcg-font-semibold wcg-normal-case">
-                            {prompts?.find((prompt) => prompt.uuid === promptUUID)?.name || 'Default prompt'}
-                        </label>
-                        {icons.expand}
-                    </div>
-                    <ul tabIndex={0} className="wcg-dropdown-content wcg-menu wcg-m-0 wcg-flex wcg-max-h-96 wcg-w-52 wcg-flex-col
-                    wcg-flex-nowrap wcg-overflow-auto
-                    wcg-rounded-md wcg-bg-gray-800 wcg-p-0"
-                    >
-                        {prompts.map((prompt) =>
-                            <li tabIndex={0} className="wcg-text-sm wcg-text-white hover:wcg-bg-gray-700"
-                                onClick={() => handlePromptChange(prompt.uuid)}
-                                key={prompt.uuid}
-                            >
-                                <a>{prompt.name}</a>
-                            </li>
-                        )
-                        }
-                        <li className="wcg-text-sm wcg-text-white hover:wcg-bg-gray-700"
-                            onClick={() => Browser.runtime.sendMessage("show_options")
-                            }
-                        >
-                            <a>+ {getTranslation(localizationKeys.buttons.newPrompt)}</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <Footer />
+return (
+    <div className="wcg-flex wcg-flex-col wcg-gap-0">
+      <div className="wcg-toolbar wcg-flex wcg-items-center wcg-justify-between wcg-gap-2 wcg-rounded-md wcg-px-1">
+        <div className="wcg-btn-xs wcg-btn" onClick={() => Browser.runtime.sendMessage("show_options")}>
+          {icons.tune}
         </div>
-    )
+        {webAccessToggle}
+        <SearchEngineSelector value={searchEngine} onChange={handleSearchEngineChange} />
+        <Dropdown value={numResults} onChange={handleNumResultsChange} options={numResultsOptions} />
+        <Dropdown value={timePeriod} onChange={handleTimePeriodChange} options={timePeriodOptions} />
+        <Dropdown value={region} onChange={handleRegionChange} options={regionOptions} />
+        <div
+          className="wcg-dropdown-top wcg-dropdown wcg-min-w-[9.5rem]"
+          onClick={handlePromptClick}
+        >
+          <div
+            tabIndex={0}
+            className="wcg-flex wcg-cursor-pointer wcg-flex-row wcg-items-center wcg-justify-between wcg-gap-0 wcg-px-2"
+          >
+            <label className="wcg-max-w-[7rem] wcg-cursor-pointer wcg-justify-start wcg-truncate wcg-pr-0 wcg-text-sm wcg-font-semibold wcg-normal-case">
+              {prompts?.find((prompt) => prompt.uuid === promptUUID)?.name || 'Default prompt'}
+            </label>
+            {icons.expand}
+          </div>
+          <ul
+            tabIndex={0}
+            className="wcg-dropdown-content wcg-menu wcg-m-0 wcg-flex wcg-max-h-96 wcg-w-52 wcg-flex-col wcg-flex-nowrap wcg-overflow-auto wcg-rounded-md wcg-bg-gray-800 wcg-p-0"
+          >
+            {prompts.map((prompt) => (
+              <li
+                tabIndex={0}
+                className="wcg-text-sm wcg-text-white hover:wcg-bg-gray-700"
+                onClick={() => handlePromptChange(prompt.uuid)}
+                key={prompt.uuid}
+              >
+                <a>{prompt.name}</a>
+              </li>
+            ))}
+            <li
+              className="wcg-text-sm wcg-text-white hover:wcg-bg-gray-700"
+              onClick={() => Browser.runtime.sendMessage('show_options')}
+            >
+              <a>+ {getTranslation(localizationKeys.buttons.newPrompt)}</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <Footer />
+    </div>
+  )
 }
 
 export default Toolbar
