@@ -1,7 +1,7 @@
 {
   "private": true,
-  "name": "webchatgpt",
-  "version": "0.0.0",
+  "name": "webgpt",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {
     "build-dev": "node build.mjs",
@@ -12,6 +12,9 @@
     "watch": "chokidar src -c \"npm run build-dev\""
   },
   "dependencies": {
+    "@types/follow-redirects": "^1.14.1",
+    "@types/http-proxy": "^1.17.10",
+    "cheerio": "^1.0.0-rc.12",
     "lodash-es": "^4.17.21",
     "preact": "^10.10.0",
     "uuid": "^9.0.0"

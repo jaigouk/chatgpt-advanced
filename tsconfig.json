@@ -18,5 +18,11 @@
 		},
 		"resolveJsonModule": true
 	},
-	"include": ["src/**/*"]
+	"include": ["src/**/*", "proxy.js", "proxy.js"],
+	"types": [
+    "node",
+    "cheerio",
+    "@types/follow-redirects",
+    "@types/http-proxy"
+  ]
 }

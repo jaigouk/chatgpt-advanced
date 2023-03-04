@@ -1,6 +1,5 @@
 import Browser from 'webextension-polyfill'
 
-
 const manifest_version = Browser.runtime.getManifest().manifest_version
 
 

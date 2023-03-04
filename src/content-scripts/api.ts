@@ -1,13 +1,26 @@
+
+import cheerio from 'cheerio';
+
 export interface SearchResult {
     title: string;
-    url: string;
-    description: string;
+    href: string;
+    body: string;
 }
 
-export async function apiSearch(query: string, numResults: number = 10, timePeriod: string = '', region: string = '', searchEngine?: string): Promise<SearchResult[]> {
+const PROXY_URL = 'http://localhost:8888';
+
+export async function apiSearch(query: string, numResults = 10, timePeriod = '', region = '', searchEngine = 'google'): Promise<SearchResult[]> {
     try {
         let baseUrl = '';
         let params: URLSearchParams;
+
+        console.log('------------------------------------');
+        console.log('logs from api.ts');
+        console.log('query', query);
+        console.log('numResults', numResults);
+        console.log('timePeriod', timePeriod);
+        console.log('region', region);
+        console.log('searchEngine', searchEngine);
 
         switch (searchEngine) {
             case 'google':
@@ -39,60 +52,51 @@ export async function apiSearch(query: string, numResults: number = 10, timePeri
         }
 
         const url = `${baseUrl}?${params.toString()}`;
+        console.log('url', url);
 
-        const response = await fetch(url, { mode: 'no-cors' });
+        const response = await fetch(`${PROXY_URL}/${url}`);
+        console.log('------------------------------------');
+        console.log('response', response);
+        console.log('------------------------------------');
         const html = await response.text();
 
-        let results: NodeListOf<Element>;
+        let results: cheerio.Cheerio;
         switch (searchEngine) {
             case 'google':
-                const parser = new DOMParser();
-                const doc = parser.parseFromString(html, 'text/html');
-                results = doc.querySelectorAll('div.g');
+                const $ = cheerio.load(html);
+                results = $('div.g');
                 break;
             case 'duckduckgo':
-                const dom = new JSDOM(html);
-                results = dom.window.document.querySelectorAll('div.result');
+                const $2 = cheerio.load(html);
+                results = $2('div.result').not('.result--no-result');
                 break;
             default:
-                const parser2 = new DOMParser();
-                const doc2 = parser2.parseFromString(html, 'text/html');
-                results = doc2.querySelectorAll('div.g');
+                const $3 = cheerio.load(html);
+                results = $3('div.g');
         }
+
+        console.log('results', results);
 
         const searchResults: SearchResult[] = [];
 
-        results.forEach(result => {
-            let title, url, description;
-            switch (searchEngine) {
-                case 'google':
-                    title = result.querySelector('h3')?.textContent;
-                    url = result.querySelector('a')?.href;
-                    description = result.querySelector('span.st')?.textContent;
-                    break;
-                case 'duckduckgo':
-                    title = result.querySelector('h2')?.textContent;
-                    url = result.querySelector('a.result__url')?.href;
-                    description = result.querySelector('a.result__snippet')?.textContent;
-                    break;
-                default:
-                    title = result.querySelector('h3')?.textContent;
-                    url = result.querySelector('a')?.href;
-                    description = result.querySelector('span.st')?.textContent;
-            }
+        results.each((index, element) => {
+            const $result = cheerio.load(element);
+            const title = $result('h3').text();
+            const href = $result('a').attr('href');
 
-            if (title && url && description) {
-                searchResults.push({
-                    title,
-                    url,
-                    description
-                });
+            const bodyElement = $result('div[data-content-feature="1"] span:nth-child(2)');
+            const body = bodyElement.text() || $result('span.st').text() || title;
+
+            if (title && href) {
+                searchResults.push({ title, href, body });
             }
         });
+
+        console.log('searchResults', searchResults);
 
         return searchResults;
     } catch (error) {
         console.error(error);
-        return [];
+        throw new Error('Failed to fetch search results');
     }
 }
