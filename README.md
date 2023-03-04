@@ -11,14 +11,15 @@ To install a Chrome extension from a zip file, you can follow these steps:
 1. `git clone https://github.com/jaigouk/chatgpt-advanced.git`
 2. `cd chatgpt-advanced`
 3. `yarn` or `npm install`
-4. `cp build/webchatgpt-2.0.6-chrome.zip ~/Downloads/`
-5. Extract the contents of the zip file to a local directory on your computer.
-6. Open the Chrome browser and navigate to the "Extensions" page by entering `chrome://extensions` in the address bar.
-7. Make sure that the `Developer mode` toggle in the top-right corner of the page is switched on.
-8. Click the `Load unpacked` button in the top-left corner of the page.
-9. In the file explorer window that opens, navigate to the directory where you extracted the contents of the zip file and select it.
-10. Click the `Select Folder` button to install the extension.
-11. After completing these steps, the extension should be installed in your Chrome browser and you should be able to see it in the `Extensions` page.
+4. `yarn build-prod-min` or `npm run build-prod-min`
+5. `cp build/webchatgpt-2.0.6-chrome.zip ~/Downloads/`
+6. Extract the contents of the zip file to a local directory on your computer.
+7. Open the Chrome browser and navigate to the "Extensions" page by entering `chrome://extensions` in the address bar.
+8. Make sure that the `Developer mode` toggle in the top-right corner of the page is switched on.
+9. Click the `Load unpacked` button in the top-left corner of the page.
+10. In the file explorer window that opens, navigate to the directory where you extracted the contents of the zip file and select it.
+11. Click the `Select Folder` button to install the extension.
+12. After completing these steps, the extension should be installed in your Chrome browser and you should be able to see it in the `Extensions` page.
 
 **Note that if the extension was downloaded from an untrusted source, Chrome may display a warning message before allowing you to install the extension. Make sure to only install extensions from trusted sources to avoid any security risks.**
 

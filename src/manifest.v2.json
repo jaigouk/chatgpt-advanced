@@ -11,7 +11,8 @@
   },
   "permissions": [
     "storage",
-    "webRequest"
+    "webRequest",
+    "https://www.google.com/*"
   ],
   "background": {
     "scripts": ["background/bg.js"]

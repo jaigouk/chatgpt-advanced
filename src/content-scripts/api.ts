@@ -40,7 +40,7 @@ export async function apiSearch(query: string, numResults: number = 10, timePeri
 
         const url = `${baseUrl}?${params.toString()}`;
 
-        const response = await fetch(url);
+        const response = await fetch(url, { mode: 'no-cors' });
         const html = await response.text();
 
         let results: NodeListOf<Element>;
