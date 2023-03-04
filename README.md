@@ -1,8 +1,7 @@
 ## changes compare to the original repo
 
-- it does not call external api call to google.
-- you can change src/content-scripts/api.ts to use other search engine
-- as of now, you can choose google and duckduckgo
+- adjusted src/content-scripts/api.ts
+- added proxy.js so that you don't need to call remote server. no need to worry about privacy.
 
 ### How to install
 
@@ -12,7 +11,7 @@ To install a Chrome extension from a zip file, you can follow these steps:
 2. `cd chatgpt-advanced`
 3. `yarn` or `npm install`
 4. `yarn build-prod-min` or `npm run build-prod-min`
-5. `cp build/webchatgpt-2.0.6-chrome.zip ~/Downloads/`
+5. `cp build/webgpt-2.0.7-chrome.zip ~/Downloads/`
 6. Extract the contents of the zip file to a local directory on your computer.
 7. Open the Chrome browser and navigate to the "Extensions" page by entering `chrome://extensions` in the address bar.
 8. Make sure that the `Developer mode` toggle in the top-right corner of the page is switched on.
@@ -20,6 +19,7 @@ To install a Chrome extension from a zip file, you can follow these steps:
 10. In the file explorer window that opens, navigate to the directory where you extracted the contents of the zip file and select it.
 11. Click the `Select Folder` button to install the extension.
 12. After completing these steps, the extension should be installed in your Chrome browser and you should be able to see it in the `Extensions` page.
+13. `node proxy.js` to start the proxy server
 
 **Note that if the extension was downloaded from an untrusted source, Chrome may display a warning message before allowing you to install the extension. Make sure to only install extensions from trusted sources to avoid any security risks.**
 
