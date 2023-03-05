@@ -19,7 +19,7 @@ To install a Chrome extension from a zip file, you can follow these steps:
 10. In the file explorer window that opens, navigate to the directory where you extracted the contents of the zip file and select it.
 11. Click the `Select Folder` button to install the extension.
 12. After completing these steps, the extension should be installed in your Chrome browser and you should be able to see it in the `Extensions` page.
-13. `node proxy.js` to start the proxy server
+13. `npm install pm2 -g && pm2 start proxy.js` to start the proxy server
 
 **Note that if the extension was downloaded from an untrusted source, Chrome may display a warning message before allowing you to install the extension. Make sure to only install extensions from trusted sources to avoid any security risks.**
 
