@@ -28,8 +28,10 @@ export async function apiSearch(query: string, numResults = 10, timePeriod = '',
                 params = new URLSearchParams({
                     q: query,
                     num: numResults.toString(),
-                    tbs: timePeriod,
-                    gl: region
+                    tbs: `qdr:${timePeriod}`,
+                    gl: region,
+                    lr: 'lang_en',
+                    dpr: '2'
                 });
                 break;
             case 'duckduckgo':
